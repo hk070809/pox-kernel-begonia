@@ -1,9 +1,7 @@
 name: Pox Kernel Build & Release
 
 on:
-  push:
-    branches:
-      - '**'
+
   workflow_dispatch:
 
 concurrency:
