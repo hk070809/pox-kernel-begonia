@@ -1,0 +1,31 @@
+name: Build Begonia Kernel
+
+on:
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  build:
+    name: Interactive Begonia Kernel Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Kernel Source
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Upterm Interactive Terminal
+        uses: owenthereal/action-upterm@v2
+        with:
+          limit-access-to-actor: true # Restricts SSH access to YOUR GitHub SSH key
+
+      - name: Upload Output Artifacts
+        if: always() # Runs even if the workflow is interrupted or manually exited
+        uses: actions/upload-artifact@v4
+        with:
+          name: Pox-Begonia-Kernel-Output
+          path: |
+            *.zip
+            out/arch/arm64/boot/Image*
+            out/arch/arm64/boot/dtb*
+          retention-days: 7
